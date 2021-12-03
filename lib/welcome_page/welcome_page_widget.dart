@@ -2,7 +2,6 @@ import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../pay_now_page/pay_now_page_widget.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -161,20 +160,10 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 0),
               child: FFButtonWidget(
-                onPressed: () async {
-                  setState(() => _loadingButton = true);
-                  try {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PayNowPageWidget(),
-                      ),
-                    );
-                  } finally {
-                    setState(() => _loadingButton = false);
-                  }
+                onPressed: () {
+                  print('Button pressed ...');
                 },
-                text: 'Proceed',
+                text: 'Proceed to Pay',
                 options: FFButtonOptions(
                   width: 350,
                   height: 40,
