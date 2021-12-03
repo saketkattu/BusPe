@@ -35,6 +35,8 @@ dependencies:
   page_transition: 2.0.4
   timeago: 3.1.0
   url_launcher: 6.0.15
+  razorpay_flutter: ^1.2.3
+  fluttertoast: ^7.1.6
 
 
   # The following adds the Cupertino Icons font to your application.
