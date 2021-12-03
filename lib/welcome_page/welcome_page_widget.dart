@@ -3,6 +3,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../pay_now_page/pay_now_page_widget.dart';
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +16,8 @@ class WelcomePageWidget extends StatefulWidget {
 }
 
 class _WelcomePageWidgetState extends State<WelcomePageWidget> {
-  String dropDownValue;
+  String dropDown1Value;
+  String dropDown2Value;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -84,14 +86,22 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
             alignment: AlignmentDirectional(-0.85, 0),
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-              child: Text(
-                'Silk Board',
-                style: FlutterFlowTheme.bodyText1.override(
+              child: FlutterFlowDropDown(
+                initialOption: dropDown1Value ??= 'K R Puram',
+                options: functions.getRoute().toList(),
+                onChanged: (val) => setState(() => dropDown1Value = val),
+                width: 180,
+                height: 50,
+                textStyle: FlutterFlowTheme.bodyText1.override(
                   fontFamily: 'Roboto',
-                  color: FlutterFlowTheme.darkBackground,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
+                fillColor: Colors.white,
+                elevation: 2,
+                borderColor: Colors.transparent,
+                borderWidth: 0,
+                borderRadius: 0,
+                margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
               ),
             ),
           ),
@@ -115,8 +125,9 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
               child: FlutterFlowDropDown(
-                options: ['HSR BDA Complex'].toList(),
-                onChanged: (val) => setState(() => dropDownValue = val),
+                initialOption: dropDown2Value ??= 'Yelahanka',
+                options: functions.getRoute().toList(),
+                onChanged: (val) => setState(() => dropDown2Value = val),
                 width: 180,
                 height: 50,
                 textStyle: FlutterFlowTheme.bodyText1.override(
@@ -132,10 +143,23 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+            child: Text(
+              functions
+                  .getPrice(dropDown1Value, dropDown2Value)
+                  .toString()
+                  .toString(),
+              style: FlutterFlowTheme.bodyText1.override(
+                fontFamily: 'Lexend Deca',
+                fontSize: 25,
+              ),
+            ),
+          ),
           Align(
             alignment: AlignmentDirectional(0.05, -0.35),
             child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 0),
               child: FFButtonWidget(
                 onPressed: () async {
                   setState(() => _loadingButton = true);
