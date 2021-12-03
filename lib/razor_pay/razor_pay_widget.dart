@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -99,33 +98,6 @@ class _HomeState extends State<Home> {
     } catch (e) {
       print(e.toString());
     }
-  }
-
-  void handlerPaymentSuccess(PaymentSuccessResponse response) {
-    print("Pament success");
-    msg = "SUCCESS: " + response.paymentId;
-    showToast(msg);
-  }
-
-  void handlerErrorFailure(PaymentFailureResponse response) {
-    msg = "ERROR: " + response.code.toString() + " - " + jsonDecode(response.message)['error']['description'];
-    showToast(msg);
-  }
-
-  void handlerExternalWallet(ExternalWalletResponse response) {
-    msg = "EXTERNAL_WALLET: " + response.walletName;
-    showToast(msg);
-  }
-
-  showToast(msg){
-    Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.grey.withOpacity(0.1),
-      textColor: Colors.black54,
-    );
   }
 
 }
