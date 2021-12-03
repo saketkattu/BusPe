@@ -1,14 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:bus_pe/ticket_page/ticket_page_widget.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:bus_pe/welcome_page/welcome_page_widget.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+void main() {
   runApp(MyApp());
 }
 
@@ -25,7 +22,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('en', '')],
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: TicketPageWidget(),
+      home: WelcomePageWidget(),
     );
   }
 }

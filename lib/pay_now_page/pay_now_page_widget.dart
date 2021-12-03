@@ -1,8 +1,8 @@
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../ticket_page/ticket_page_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,6 +15,7 @@ class PayNowPageWidget extends StatefulWidget {
 
 class _PayNowPageWidgetState extends State<PayNowPageWidget> {
   bool _loadingButton = false;
+  var qrCode = '';
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -62,12 +63,14 @@ class _PayNowPageWidgetState extends State<PayNowPageWidget> {
               onPressed: () async {
                 setState(() => _loadingButton = true);
                 try {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TicketPageWidget(),
-                    ),
+                  qrCode = await FlutterBarcodeScanner.scanBarcode(
+                    '#C62828', // scanning line color
+                    'Cancel', // cancel button text
+                    true, // whether to show the flash icon
+                    ScanMode.QR,
                   );
+
+                  setState(() {});
                 } finally {
                   setState(() => _loadingButton = false);
                 }
