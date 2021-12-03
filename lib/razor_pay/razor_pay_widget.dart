@@ -20,9 +20,7 @@ class _HomeState extends State<Home> {
 
     razorpay = new Razorpay();
 
-    razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
-    razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerErrorFailure);
-    razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+
   }
 
   @override
