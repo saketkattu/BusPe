@@ -98,10 +98,10 @@ List<String> getRoute() {
   return route;
 }
 
-String getQR() {
+String getQR(String paymentId) {
   // Add your function code here!
   //Dummy image need to edit in actual Flutter
   var imgUrl =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png";
+      "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="+"https://xfj4v2.deta.dev/verify/pay_ITLyo28o8bxG34";
   return imgUrl;
 }

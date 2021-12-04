@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import  '../welcome_page/welcome_page_widget.dart' as PaymentInfo ;
+
+
 class TicketPageWidget extends StatefulWidget {
   const TicketPageWidget({Key key}) : super(key: key);
 
@@ -44,10 +47,7 @@ class _TicketPageWidgetState extends State<TicketPageWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 100, 0, 0),
                 child: Image.network(
-                  valueOrDefault<String>(
-                    functions.getQR(),
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-                  ),
+                    functions.getQR(PaymentInfo.PaymentUId).toString().toString(),
                   width: 200,
                   height: 200,
                   fit: BoxFit.cover,

@@ -11,6 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Razorpay razorpay;
+  String PaymentId;
   TextEditingController textEditingController = new TextEditingController();
   FocusNode textFocusController = FocusNode();
   var msg;
@@ -106,6 +107,7 @@ class _HomeState extends State<Home> {
     //Open Confirmation Page( ticket_page.dart ) 
     //Store the order ID as a global variable 
     print("Payment success");
+    PaymentId = response.paymentId;
     msg = "SUCCESS: " + response.paymentId;
     showToast(msg);
   }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bus_pe/ticket_page/ticket_page_widget.dart';
 
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -16,7 +17,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 String dropDown1Value;
 String dropDown2Value;
 String secretMessage;
-
+String PaymentUId;
+  BuildContext contextnew;
+  
 class WelcomePageWidget extends StatefulWidget {
   const WelcomePageWidget({Key key}) : super(key: key);
 
@@ -88,7 +91,7 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
             child: Text(
-              '500D',
+              '400D',
               style: FlutterFlowTheme.title1.override(
                 fontFamily: 'Lexend Deca',
                 color: FlutterFlowTheme.darkBackground,
@@ -187,10 +190,12 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
           Align(
             alignment: AlignmentDirectional(0.05, -0.35),
             child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 100, 0, 0),
               child: FFButtonWidget(
-                onPressed: () {
-                  openCheckout();
+                onPressed: () async {
+                  await openCheckout();
+                  contextnew = context;
+                  
                 },
                 text: 'Proceed to Pay',
                 options: FFButtonOptions(
@@ -210,7 +215,35 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
                 loading: _loadingButton,
               ),
             ),
-          )
+          ),
+           Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
+              child: FFButtonWidget(
+                onPressed: () async {
+                  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => TicketPageWidget()),
+  );
+                  
+                },
+                text: 'Show Ticket',
+                options: FFButtonOptions(
+                  width: 250,
+                  height: 40,
+                  color: FlutterFlowTheme.darkBackground,
+                  textStyle: FlutterFlowTheme.subtitle2.override(
+                    fontFamily: 'Roboto',
+                    color: Colors.white,
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
+                  borderRadius: 12,
+                ),
+                loading: _loadingButton,
+              ),
+            ),
         ],
       ),
     );
@@ -221,19 +254,20 @@ void openCheckout() {
   var amount =
       functions.getPrice(dropDown1Value, dropDown2Value).toString().toString();
   var amountint = int.parse(amount);
-   var options = {
-      "key": "rzp_test_pAHyhdxk2btam4",
-      "amount": amountint * 100, // Need to get price from fair funtion as global variable
-      "name": "Payment For BusPe",
-      "description": "This is a Test Payment",
-      "timeout": "180",
-      "theme.color": "#03be03",
-      "currency": "INR",
-      //"prefill": {"contact": "2323232323", "email": "testByKamlesh@razorpay.com"},
-      "external": {
-        "wallets": ["paytm"]
-      }
-    };
+  var options = {
+    "key": "rzp_test_pAHyhdxk2btam4",
+    "amount": amountint *
+        100, // Need to get price from fair funtion as global variable
+    "name": "Payment For BusPe",
+    "description": "This is a Test Payment",
+    "timeout": "180",
+    "theme.color": "#03be03",
+    "currency": "INR",
+    "prefill": {"contact": "8938499034", "email": "test@hypersync.com"},
+    "external": {
+      "wallets": ["paytm"]
+    }
+  };
 
   try {
     var razorpay = new Razorpay();
@@ -248,9 +282,11 @@ void handlerPaymentSuccess(PaymentSuccessResponse response) {
   //Open Confirmation Page( ticket_page.dart )
   //Store the order ID as a global variable
   // secretMessage = response.orderId +
+  PaymentUId = response.paymentId;
   var msg = "SUCCESS: " + response.paymentId;
   print(response.paymentId);
   showToast(msg);
+  
 }
 
 void handlerErrorFailure(PaymentFailureResponse response) {
