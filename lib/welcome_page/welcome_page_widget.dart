@@ -13,11 +13,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+String dropDown1Value;
+String dropDown2Value;
+String secretMessage;
 
 class WelcomePageWidget extends StatefulWidget {
-
   const WelcomePageWidget({Key key}) : super(key: key);
-  
 
   @override
   _WelcomePageWidgetState createState() => _WelcomePageWidgetState();
@@ -27,8 +28,6 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
   //Razorpay
   Razorpay razorpay;
 
-  String dropDown1Value;
-  String dropDown2Value;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -218,21 +217,13 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-  void openCheckout() {
-    var options = {
-      "key": "rzp_test_NzmbGpe1b10j1l",
-      "amount": 100 * 100, // Need to get price from fair funtion as global variable
+void openCheckout() {
+  var amount =
+      functions.getPrice(dropDown1Value, dropDown2Value).toString().toString();
+  var amountint = int.parse(amount);
+   var options = {
+      "key": "rzp_test_pAHyhdxk2btam4",
+      "amount": amountint * 100, // Need to get price from fair funtion as global variable
       "name": "Payment For BusPe",
       "description": "This is a Test Payment",
       "timeout": "180",
@@ -244,41 +235,44 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
       }
     };
 
-    try {
-      var razorpay = new Razorpay();
-      razorpay.open(options);
-    } catch (e) {
-      print(e.toString());
-    }
+  try {
+    var razorpay = new Razorpay();
+    razorpay.open(options);
+  } catch (e) {
+    print(e.toString());
   }
+}
 
-  void handlerPaymentSuccess(PaymentSuccessResponse response) {
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Open Confirmation Page( ticket_page.dart ) 
-    //Store the order ID as a global variable 
-    print("Payment success");
-    var msg = "SUCCESS: " + response.paymentId;
-    showToast(msg);
-  }
+void handlerPaymentSuccess(PaymentSuccessResponse response) {
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //Open Confirmation Page( ticket_page.dart )
+  //Store the order ID as a global variable
+  // secretMessage = response.orderId +
+  var msg = "SUCCESS: " + response.paymentId;
+  print(response.paymentId);
+  showToast(msg);
+}
 
-  void handlerErrorFailure(PaymentFailureResponse response) {
-    var msg = "ERROR: " + response.code.toString() + " - " + jsonDecode(response.message)['error']['description'];
-    showToast(msg);
-  }
+void handlerErrorFailure(PaymentFailureResponse response) {
+  var msg = "ERROR: " +
+      response.code.toString() +
+      " - " +
+      jsonDecode(response.message)['error']['description'];
+  showToast(msg);
+}
 
-  void handlerExternalWallet(ExternalWalletResponse response) {
-    var msg = "EXTERNAL_WALLET: " + response.walletName;
-    showToast(msg);
-  }
+void handlerExternalWallet(ExternalWalletResponse response) {
+  var msg = "EXTERNAL_WALLET: " + response.walletName;
+  showToast(msg);
+}
 
-  showToast(msg){
-    Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.grey.withOpacity(0.1),
-      textColor: Colors.black54,
-    );
-  }
-
+showToast(msg) {
+  Fluttertoast.showToast(
+    msg: msg,
+    toastLength: Toast.LENGTH_LONG,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.grey.withOpacity(0.1),
+    textColor: Colors.black54,
+  );
+}
