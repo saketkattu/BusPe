@@ -243,6 +243,7 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
     };
 
     try {
+      var razorpay = new Razorpay();
       razorpay.open(options);
     } catch (e) {
       print(e.toString());
@@ -254,17 +255,17 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
     //Open Confirmation Page( ticket_page.dart ) 
     //Store the order ID as a global variable 
     print("Payment success");
-    msg = "SUCCESS: " + response.paymentId;
+    var msg = "SUCCESS: " + response.paymentId;
     showToast(msg);
   }
 
   void handlerErrorFailure(PaymentFailureResponse response) {
-    msg = "ERROR: " + response.code.toString() + " - " + jsonDecode(response.message)['error']['description'];
+    var msg = "ERROR: " + response.code.toString() + " - " + jsonDecode(response.message)['error']['description'];
     showToast(msg);
   }
 
   void handlerExternalWallet(ExternalWalletResponse response) {
-    msg = "EXTERNAL_WALLET: " + response.walletName;
+    var msg = "EXTERNAL_WALLET: " + response.walletName;
     showToast(msg);
   }
 
