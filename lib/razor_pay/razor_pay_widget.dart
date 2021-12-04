@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
+// Add the Razorpay code the Welcome Page  
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -20,7 +21,9 @@ class _HomeState extends State<Home> {
 
     razorpay = new Razorpay();
 
-
+    razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
+    razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerErrorFailure);
+    razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
   }
 
   @override
@@ -78,14 +81,14 @@ class _HomeState extends State<Home> {
 
   void openCheckout() {
     var options = {
-      "key": "Use Your API Key Id here",
-      "amount": num.parse(textEditingController.text) * 100, // Convert Paisa to Rupees
-      "name": "Test Payment By Kamlesh",
+      "key": "rzp_test_NzmbGpe1b10j1l",
+      "amount": num.parse(textEditingController.text) * 100, // Need to get price from fair funtion as global variable
+      "name": "Payment For BusPe",
       "description": "This is a Test Payment",
       "timeout": "180",
       "theme.color": "#03be03",
       "currency": "INR",
-      "prefill": {"contact": "2323232323", "email": "testByKamlesh@razorpay.com"},
+      //"prefill": {"contact": "2323232323", "email": "testByKamlesh@razorpay.com"},
       "external": {
         "wallets": ["paytm"]
       }
@@ -96,6 +99,36 @@ class _HomeState extends State<Home> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  void handlerPaymentSuccess(PaymentSuccessResponse response) {
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Open Confirmation Page( ticket_page.dart ) 
+    //Store the order ID as a global variable 
+    print("Payment success");
+    msg = "SUCCESS: " + response.paymentId;
+    showToast(msg);
+  }
+
+  void handlerErrorFailure(PaymentFailureResponse response) {
+    msg = "ERROR: " + response.code.toString() + " - " + jsonDecode(response.message)['error']['description'];
+    showToast(msg);
+  }
+
+  void handlerExternalWallet(ExternalWalletResponse response) {
+    msg = "EXTERNAL_WALLET: " + response.walletName;
+    showToast(msg);
+  }
+
+  showToast(msg){
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.grey.withOpacity(0.1),
+      textColor: Colors.black54,
+    );
   }
 
 }
